@@ -7,7 +7,70 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <header>
+        <h1>My Library</h1>
+        <div>
+            <button>Log In</button>
+            <button>Sign Up</button>
+        </div>
+    </header>
+    <main>
+        <table id="book-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Pages</th>
+                    <th>Read?</th>
+                    <th>
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" />
+                            <path d="M6 6l12 12" />
+                        </svg>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div class="add-book">
+            <button id="add-new-book">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-plus">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" />
+                    </svg>
+            </button>
+        </div>
+        <div  id="form-popup" class="form-popup">
+            <form class="form">
+                <form class="form">
+                    <label for="year">Year: </label>
+                    <input type="text" id="year" required>
+                    
+                    <label for="title">Title: </label>
+                    <input type="text" id="title" required>
+                    
+                    <label for="author">Author: </label>
+                    <input type="text" id="author" required>
+                    
+                    <label for="pages">Pages:</label>
+                    <input type="text" id="pages" required>
+                    
+                    <label for="read">Read?</label>
+                    <input type="checkbox" id="read">
+                    
+                    <div>
+                        <button id="submit-book" type="submit">Add Book</button>
+                        <button id="close-popup" type="button">Close</button>
+                    </div>
+                </form>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>Copyright &#169; Ashley Hambly</p>
+    </footer>
 </body>
 <script src="script.js"></script>
 </html>
