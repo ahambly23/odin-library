@@ -9,7 +9,22 @@ const formPopUp = document.getElementById("form-popup");
 const closeButton = document.getElementById("close-popup");
 const tableBody = document.querySelector("#book-table tbody");
 
-const myLibrary = [];
+const myLibrary = [
+    {
+        title: "The Hobbit",
+        author: "J.R.R. Tolkien",
+        year: 1937,
+        pages: 300,
+        read: true
+    },
+    {
+        title: "The Catcher in the Rye",
+        author: "J.D. Salinger",
+        year: 1951,
+        pages: 277,
+        read: false
+    }
+];
 
 const Book = (title, author, year, pages, read) => {
     return {
@@ -28,64 +43,71 @@ const addBookToLibrary = (book) => {
 const displayBook = (book, index) => {
     const newBookRow = document.createElement("tr");
 
-    // Create each table data cell <td> and append it to the row
     newBookRow.innerHTML = `
         <td>${book.year}</td>
         <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.pages}</td>
-        <td>${book.read ? "Yes" : "No"}</td>
+        <td><button class="read-status">${book.read ? "Yes" : "No"}</button></td>
         <td><button class="remove-book" data-index="${index}">Remove</button></td>
     `;
 
-    // Append the new row to the table body
     tableBody.appendChild(newBookRow);
 
-    // Attach an event listener to the "Remove" button
+    const rows = tableBody.querySelectorAll('tr');
+    rows.forEach((row, idx) => {
+        if (idx % 2 === 1) {
+            row.style.backgroundColor = '#ddc9b4';
+        } else {
+            row.style.backgroundColor = '#bcac9b';
+        }
+    });
+
     const removeButton = newBookRow.querySelector(".remove-book");
     removeButton.addEventListener("click", () => {
         removeBook(index);
     });
+
+    const readStatusButton = newBookRow.querySelector(".read-status");
+    readStatusButton.addEventListener("click", () => {
+        toggleReadStatus(index);
+    });
 };
 
-const submitBookForm = (event) => {
-    event.preventDefault(); // Prevent form from refreshing the page
+const toggleReadStatus = (index) => {
+    myLibrary[index].read = !myLibrary[index].read;
 
-    // Create a new book object from user input
-    const newBook = Book(bookTitle.value, bookAuthor.value, bookYear.value, bookPages.value, bookRead.checked);
-
-    // Add the new book to the library array
-    addBookToLibrary(newBook);
-
-    // Display the new book in the table
-    displayBook(newBook, myLibrary.length - 1);
-
-    // Reset the form and close the pop-up
-    document.querySelector(".form").reset();
-    formPopUp.style.display = "none";
-};
-
-const removeBook = (index) => {
-    // Remove the book from the myLibrary array
-    myLibrary.splice(index, 1);
-
-    // Clear the table
     tableBody.innerHTML = '';
-
-    // Re-render the table with updated myLibrary array
     myLibrary.forEach(displayBook);
 };
 
-// Event listener to show the form when clicking "Add New Book" button
+const submitBookForm = (event) => {
+    event.preventDefault();
+    const newBook = Book(bookTitle.value, bookAuthor.value, bookYear.value, bookPages.value, bookRead.checked);
+    addBookToLibrary(newBook);
+    displayBook(newBook, myLibrary.length - 1);
+
+    document.querySelector(".form").reset();
+    formPopUp.classList.remove("active");
+};
+
+const removeBook = (index) => {
+    myLibrary.splice(index, 1);
+    tableBody.innerHTML = '';
+    myLibrary.forEach(displayBook);
+};
+
 addButton.addEventListener("click", () => {
-    formPopUp.style.display = "block";
+    formPopUp.classList.add("active");
 });
 
-// Event listener to hide the form when clicking the "Close" button
 closeButton.addEventListener("click", (event) => {
     event.preventDefault();
-    formPopUp.style.display = "none";
+    formPopUp.classList.remove("active"); 
 });
 
-// Event listener for form submission to add the book to the library
 document.querySelector(".form").addEventListener("submit", submitBookForm);
+
+document.addEventListener("DOMContentLoaded", () => {
+    myLibrary.forEach(displayBook);
+});
